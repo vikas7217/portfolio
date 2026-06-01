@@ -1,305 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Vikas Kumar — Full-Stack Developer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Syne', sans-serif; background: #060610; color: #e2e8f0; overflow-x: hidden; }
-  :root {
-    --cyan: #00d4ff;
-    --purple: #7c3aed;
-    --green: #10b981;
-    --amber: #f59e0b;
-    --red: #ef4444;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 clamp(1.2rem, 4vw, 3rem); height: 64px;
-    background: rgba(6,6,16,0.88); backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(0,212,255,0.1);
-  }
-  .logo {
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.12em;
-    background: linear-gradient(135deg, var(--cyan), var(--purple));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    cursor: pointer;
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links li {
-    cursor: pointer; font-size: 0.75rem; letter-spacing: 0.15em;
-    text-transform: uppercase; color: #94a3b8;
-    transition: color 0.2s; padding-bottom: 3px;
-    border-bottom: 2px solid transparent;
-  }
-  .nav-links li.active { color: var(--cyan); border-bottom-color: var(--cyan); font-weight: 700; }
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-  .hamburger span { display: block; width: 24px; height: 2px; background: var(--cyan); border-radius: 2px; transition: all 0.3s; }
-  .mobile-menu {
-    display: none; position: fixed; top: 64px; left: 0; right: 0;
-    background: rgba(6,6,16,0.97); backdrop-filter: blur(16px); z-index: 99;
-    padding: 1.5rem 2rem; flex-direction: column; gap: 1.2rem;
-    border-bottom: 1px solid rgba(0,212,255,0.15);
-  }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu a {
-    font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: #94a3b8; text-decoration: none; padding: 0.5rem 0;
-  }
-  .mobile-menu a.active { color: var(--cyan); }
-
-  /* HERO */
-  #home {
-    min-height: 100vh; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; text-align: center;
-    padding: 80px clamp(1.5rem, 5vw, 4rem) 4rem; position: relative; overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0; pointer-events: none;
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 40% at 80% 80%, rgba(124,58,237,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 50% at 10% 50%, rgba(16,185,129,0.05) 0%, transparent 60%);
-  }
-  .hero-grid {
-    position: absolute; inset: 0; pointer-events: none;
-    background-image: linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
-  .hero-content { position: relative; z-index: 1; }
-  .badge {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3);
-    border-radius: 100px; padding: 0.35rem 1rem;
-    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--cyan); margin-bottom: 1.5rem;
-    animation: fadeDown 0.8s ease forwards;
-  }
-  .badge-dot {
-    width: 6px; height: 6px; border-radius: 50%; background: var(--green);
-    animation: pulse 2s infinite;
-  }
-  .hero-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3.5rem, 10vw, 8rem);
-    line-height: 1; letter-spacing: 0.05em; margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, #ffffff 30%, var(--cyan) 70%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    animation: fadeUp 0.9s ease 0.1s both;
-  }
-  .hero-title {
-    font-size: clamp(0.9rem, 2.5vw, 1.3rem); color: var(--purple);
-    letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.5rem;
-    font-weight: 700; animation: fadeUp 0.9s ease 0.2s both;
-  }
-  .hero-summary {
-    max-width: 640px; color: #94a3b8; line-height: 1.8;
-    font-size: 0.95rem; margin: 0 auto 2.5rem;
-    animation: fadeUp 0.9s ease 0.3s both;
-  }
-  .hero-btns {
-    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-    animation: fadeUp 0.9s ease 0.4s both;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--cyan), var(--purple));
-    color: #fff; border: none; border-radius: 8px;
-    padding: 0.75rem 2rem; font-size: 0.85rem;
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    letter-spacing: 0.1em; cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,255,0.3); }
-  .btn-secondary {
-    background: transparent; color: var(--cyan);
-    border: 1px solid rgba(0,212,255,0.4); border-radius: 8px;
-    padding: 0.75rem 2rem; font-size: 0.85rem;
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;
-  }
-  .btn-secondary:hover { background: rgba(0,212,255,0.08); transform: translateY(-2px); }
-  .scroll-hint {
-    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: 0.4;
-  }
-  .scroll-hint span { font-size: 0.6rem; letter-spacing: 0.2em; color: #94a3b8; }
-  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--cyan), transparent); }
-
-  /* SECTIONS */
-  .section { padding: 5rem clamp(1.5rem, 5vw, 6rem); max-width: 1100px; margin: 0 auto; }
-  .section-alt { background: rgba(255,255,255,0.01); }
-  .section-label {
-    font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--cyan); margin-bottom: 0.5rem; font-weight: 700;
-  }
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    letter-spacing: 0.05em; margin-bottom: 0.5rem; line-height: 1;
-  }
-  .divider {
-    width: 60px; height: 3px;
-    background: linear-gradient(90deg, var(--cyan), var(--purple));
-    border-radius: 3px; margin-bottom: 3rem;
-  }
-
-  /* SKILLS */
-  .skill-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
-  .skill-tab {
-    padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.75rem;
-    font-weight: 700; letter-spacing: 0.1em; cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.1); background: transparent;
-    color: #94a3b8; transition: all 0.2s; font-family: 'Syne', sans-serif;
-  }
-  .skill-tab:hover { border-color: rgba(255,255,255,0.3); }
-  .skill-tab.active-fe { border-color: var(--cyan); background: rgba(0,212,255,0.12); color: var(--cyan); }
-  .skill-tab.active-be { border-color: var(--purple); background: rgba(124,58,237,0.12); color: var(--purple); }
-  .skill-tab.active-db { border-color: var(--green); background: rgba(16,185,129,0.12); color: var(--green); }
-  .skill-tab.active-cl { border-color: var(--amber); background: rgba(245,158,11,0.12); color: var(--amber); }
-  .skill-tab.active-au { border-color: var(--red); background: rgba(239,68,68,0.12); color: var(--red); }
-  .skill-tab.active-to { border-color: #8b5cf6; background: rgba(139,92,246,0.12); color: #8b5cf6; }
-  .skill-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-  .skill-pill {
-    padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.82rem;
-    transition: all 0.2s; cursor: default;
-  }
-  .skill-pill:hover { transform: translateY(-2px); filter: brightness(1.2); }
-  .pill-fe { background: rgba(0,212,255,0.12); border: 1px solid rgba(0,212,255,0.3); }
-  .pill-be { background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.3); }
-  .pill-db { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); }
-  .pill-cl { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); }
-  .pill-au { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); }
-  .pill-to { background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.3); }
-  .skill-panel { display: none; }
-  .skill-panel.active { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-
-  /* EXPERIENCE */
-  .exp-card {
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem;
-    position: relative; overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s;
-  }
-  .exp-card:hover { border-color: rgba(0,212,255,0.25); transform: translateY(-2px); }
-  .exp-accent {
-    position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-    background: linear-gradient(180deg, var(--cyan), var(--purple)); border-radius: 3px 0 0 3px;
-  }
-  .exp-inner { padding-left: 0.5rem; }
-  .exp-role { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.05em; color: #fff; margin-bottom: 0.2rem; }
-  .exp-company { color: var(--cyan); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
-  .exp-product { color: #64748b; font-size: 0.78rem; margin-bottom: 0.5rem; font-style: italic; }
-  .exp-period {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
-    border-radius: 100px; padding: 0.25rem 0.85rem;
-    font-size: 0.72rem; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 1.2rem;
-  }
-  .exp-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-  .exp-item { display: flex; gap: 0.75rem; font-size: 0.875rem; color: #94a3b8; line-height: 1.7; }
-  .exp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); margin-top: 0.6rem; flex-shrink: 0; }
-
-  /* PROJECTS */
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-    gap: 1.5rem;
-  }
-  .project-card {
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 16px; padding: 1.8rem;
-    transition: border-color 0.3s, transform 0.3s; position: relative; overflow: hidden;
-  }
-  .project-card::before {
-    content: ''; position: absolute; top: 0; right: 0;
-    width: 120px; height: 120px;
-    background: radial-gradient(ellipse at 100% 0%, rgba(124,58,237,0.08), transparent 70%);
-    pointer-events: none;
-  }
-  .project-card:hover { border-color: rgba(124,58,237,0.4); transform: translateY(-4px); }
-  .project-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-  .project-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; margin-bottom: 0.5rem; color: #fff; }
-  .project-stack { font-size: 0.72rem; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 0.75rem; font-weight: 700; }
-  .project-desc { font-size: 0.85rem; color: #94a3b8; line-height: 1.7; }
-
-  /* EDUCATION */
-  .edu-card {
-    margin-top: 3rem;
-    background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(124,58,237,0.05));
-  }
-
-  /* CONTACT */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
-    gap: 1rem; margin-bottom: 2rem;
-  }
-  .contact-card {
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 12px; padding: 1.2rem 1.5rem;
-    display: flex; align-items: center; gap: 1rem;
-    cursor: pointer; transition: all 0.2s;
-    text-decoration: none; color: inherit;
-  }
-  .contact-card:hover { border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.04); }
-  .contact-icon {
-    width: 40px; height: 40px; border-radius: 10px;
-    background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; flex-shrink: 0;
-  }
-  .contact-icon.purple { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.2); }
-  .contact-label { font-size: 0.68rem; color: #64748b; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.2rem; }
-  .contact-value { font-size: 0.85rem; color: #e2e8f0; font-weight: 600; word-break: break-all; }
-
-  /* FOOTER */
-  footer {
-    text-align: center; padding: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    color: #475569; font-size: 0.78rem; letter-spacing: 0.1em;
-  }
-  footer p:last-child { margin-top: 0.4rem; opacity: 0.5; }
-
-  /* ANIMATIONS */
-  @keyframes fadeDown { from { opacity:0; transform:translateY(-16px); } to { opacity:1; transform:none; } }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:none; } }
-  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
-
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible { opacity: 1; transform: none; }
-  .reveal-d1 { transition-delay: 0.1s; }
-  .reveal-d2 { transition-delay: 0.2s; }
-  .reveal-d3 { transition-delay: 0.3s; }
-
-  /* RESPONSIVE */
-  @media (max-width: 640px) {
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vikas Kumar — Full-Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="index.css" />
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ── NAV ──────────────────────────────────────────────────────────────── -->
 <nav>
-  <div class="logo" onclick="scrollTo('home')">VK.</div>
+  <div class="logo" onclick="scrollToSection('home')">VK.</div>
   <ul class="nav-links" id="navLinks">
-    <li class="active" onclick="scrollTo('home')">Home</li>
-    <li onclick="scrollTo('skills')">Skills</li>
-    <li onclick="scrollTo('experience')">Experience</li>
-    <li onclick="scrollTo('projects')">Projects</li>
-    <li onclick="scrollTo('contact')">Contact</li>
+    <li class="active"               onclick="scrollToSection('home')">Home</li>
+    <li onclick="scrollToSection('skills')">Skills</li>
+    <li onclick="scrollToSection('experience')">Experience</li>
+    <li onclick="scrollToSection('projects')">Projects</li>
+    <li onclick="scrollToSection('contact')">Contact</li>
   </ul>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
     <span id="hb1"></span>
@@ -308,16 +27,16 @@
   </button>
 </nav>
 
-<!-- MOBILE MENU -->
+<!-- ── MOBILE MENU ───────────────────────────────────────────────────────── -->
 <div class="mobile-menu" id="mobileMenu">
-  <a onclick="scrollTo('home');closeMenu()">HOME</a>
-  <a onclick="scrollTo('skills');closeMenu()">SKILLS</a>
-  <a onclick="scrollTo('experience');closeMenu()">EXPERIENCE</a>
-  <a onclick="scrollTo('projects');closeMenu()">PROJECTS</a>
-  <a onclick="scrollTo('contact');closeMenu()">CONTACT</a>
+  <a onclick="scrollToSection('home');       closeMenu()">HOME</a>
+  <a onclick="scrollToSection('skills');     closeMenu()">SKILLS</a>
+  <a onclick="scrollToSection('experience'); closeMenu()">EXPERIENCE</a>
+  <a onclick="scrollToSection('projects');   closeMenu()">PROJECTS</a>
+  <a onclick="scrollToSection('contact');    closeMenu()">CONTACT</a>
 </div>
 
-<!-- HERO -->
+<!-- ── HERO ──────────────────────────────────────────────────────────────── -->
 <section id="home">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
@@ -325,10 +44,14 @@
     <div class="badge"><span class="badge-dot"></span>Available for opportunities</div>
     <h1 class="hero-name">Vikas Kumar</h1>
     <div class="hero-title">MERN · Microservices · Cloud</div>
-    <p class="hero-summary">Full-Stack Developer with 2.2 years of experience building production-grade MERN stack applications and microservices-based platforms. Delivered end-to-end features across the OnPoint / Service Avenger enterprise warranty ecosystem.</p>
+    <p class="hero-summary">
+      Full-Stack Developer with 2.2 years of experience building production-grade MERN stack
+      applications and microservices-based platforms. Delivered end-to-end features across the
+      OnPoint / Service Avenger enterprise warranty ecosystem.
+    </p>
     <div class="hero-btns">
-      <button class="btn-primary" onclick="scrollTo('projects')">View Projects →</button>
-      <button class="btn-secondary" onclick="scrollTo('contact')">Contact Me</button>
+      <button class="btn-primary"   onclick="scrollToSection('projects')">View Projects →</button>
+      <button class="btn-secondary" onclick="scrollToSection('contact')">Contact Me</button>
     </div>
   </div>
   <div class="scroll-hint">
@@ -337,62 +60,85 @@
   </div>
 </section>
 
-<!-- SKILLS -->
+<!-- ── SKILLS ────────────────────────────────────────────────────────────── -->
 <section id="skills" style="padding: 5rem 0;">
   <div class="section">
     <div class="reveal">
       <div class="section-label">What I work with</div>
       <h2 class="section-title">Technical Skills</h2>
       <div class="divider"></div>
+
       <div class="skill-tabs">
         <button class="skill-tab active-fe" onclick="switchSkill('fe', this)">Frontend</button>
-        <button class="skill-tab" onclick="switchSkill('be', this)">Backend</button>
-        <button class="skill-tab" onclick="switchSkill('db', this)">Databases</button>
-        <button class="skill-tab" onclick="switchSkill('cl', this)">Cloud & Infra</button>
-        <button class="skill-tab" onclick="switchSkill('au', this)">Auth & Security</button>
-        <button class="skill-tab" onclick="switchSkill('to', this)">Tools & Others</button>
+        <button class="skill-tab"           onclick="switchSkill('be', this)">Backend</button>
+        <button class="skill-tab"           onclick="switchSkill('db', this)">Databases</button>
+        <button class="skill-tab"           onclick="switchSkill('cl', this)">Cloud &amp; Infra</button>
+        <button class="skill-tab"           onclick="switchSkill('au', this)">Auth &amp; Security</button>
+        <button class="skill-tab"           onclick="switchSkill('to', this)">Tools &amp; Others</button>
       </div>
+
       <div id="skill-fe" class="skill-panel active">
-        <span class="skill-pill pill-fe">React.js</span><span class="skill-pill pill-fe">Redux Toolkit</span>
-        <span class="skill-pill pill-fe">TanStack Query</span><span class="skill-pill pill-fe">Next.js</span>
-        <span class="skill-pill pill-fe">Formik</span><span class="skill-pill pill-fe">Material UI</span>
-        <span class="skill-pill pill-fe">TypeScript</span><span class="skill-pill pill-fe">JavaScript ES6+</span>
-        <span class="skill-pill pill-fe">HTML5</span><span class="skill-pill pill-fe">CSS3</span>
+        <span class="skill-pill pill-fe">React.js</span>
+        <span class="skill-pill pill-fe">Redux Toolkit</span>
+        <span class="skill-pill pill-fe">TanStack Query</span>
+        <span class="skill-pill pill-fe">Next.js</span>
+        <span class="skill-pill pill-fe">Formik</span>
+        <span class="skill-pill pill-fe">Material UI</span>
+        <span class="skill-pill pill-fe">TypeScript</span>
+        <span class="skill-pill pill-fe">JavaScript ES6+</span>
+        <span class="skill-pill pill-fe">HTML5</span>
+        <span class="skill-pill pill-fe">CSS3</span>
       </div>
       <div id="skill-be" class="skill-panel">
-        <span class="skill-pill pill-be">Node.js</span><span class="skill-pill pill-be">Express.js</span>
-        <span class="skill-pill pill-be">NestJS</span><span class="skill-pill pill-be">RESTful APIs</span>
-        <span class="skill-pill pill-be">AJV Schema Validation</span><span class="skill-pill pill-be">WebSocket</span>
-        <span class="skill-pill pill-be">Cron Jobs</span><span class="skill-pill pill-be">Helmet.js</span>
+        <span class="skill-pill pill-be">Node.js</span>
+        <span class="skill-pill pill-be">Express.js</span>
+        <span class="skill-pill pill-be">NestJS</span>
+        <span class="skill-pill pill-be">RESTful APIs</span>
+        <span class="skill-pill pill-be">AJV Schema Validation</span>
+        <span class="skill-pill pill-be">WebSocket</span>
+        <span class="skill-pill pill-be">Cron Jobs</span>
+        <span class="skill-pill pill-be">Helmet.js</span>
       </div>
       <div id="skill-db" class="skill-panel">
-        <span class="skill-pill pill-db">MySQL</span><span class="skill-pill pill-db">MongoDB</span>
-        <span class="skill-pill pill-db">Redis</span><span class="skill-pill pill-db">Firebase Firestore</span>
-        <span class="skill-pill pill-db">Realtime DB</span><span class="skill-pill pill-db">Query Optimisation</span>
+        <span class="skill-pill pill-db">MySQL</span>
+        <span class="skill-pill pill-db">MongoDB</span>
+        <span class="skill-pill pill-db">Redis</span>
+        <span class="skill-pill pill-db">Firebase Firestore</span>
+        <span class="skill-pill pill-db">Realtime DB</span>
+        <span class="skill-pill pill-db">Query Optimisation</span>
         <span class="skill-pill pill-db">Indexing</span>
       </div>
       <div id="skill-cl" class="skill-panel">
-        <span class="skill-pill pill-cl">AWS S3</span><span class="skill-pill pill-cl">AWS SQS</span>
-        <span class="skill-pill pill-cl">API Gateway</span><span class="skill-pill pill-cl">Docker</span>
-        <span class="skill-pill pill-cl">Kubernetes (Basic)</span><span class="skill-pill pill-cl">CI/CD Pipelines</span>
+        <span class="skill-pill pill-cl">AWS S3</span>
+        <span class="skill-pill pill-cl">AWS SQS</span>
+        <span class="skill-pill pill-cl">API Gateway</span>
+        <span class="skill-pill pill-cl">Docker</span>
+        <span class="skill-pill pill-cl">Kubernetes (Basic)</span>
+        <span class="skill-pill pill-cl">CI/CD Pipelines</span>
         <span class="skill-pill pill-cl">Event-Driven Architecture</span>
       </div>
       <div id="skill-au" class="skill-panel">
-        <span class="skill-pill pill-au">Keycloak SSO</span><span class="skill-pill pill-au">OAuth2</span>
-        <span class="skill-pill pill-au">JWT</span><span class="skill-pill pill-au">RBAC</span>
+        <span class="skill-pill pill-au">Keycloak SSO</span>
+        <span class="skill-pill pill-au">OAuth2</span>
+        <span class="skill-pill pill-au">JWT</span>
+        <span class="skill-pill pill-au">RBAC</span>
       </div>
       <div id="skill-to" class="skill-panel">
-        <span class="skill-pill pill-to">Git</span><span class="skill-pill pill-to">GitHub</span>
-        <span class="skill-pill pill-to">Postman</span><span class="skill-pill pill-to">Jira</span>
-        <span class="skill-pill pill-to">SonarQube</span><span class="skill-pill pill-to">GitHub Copilot</span>
-        <span class="skill-pill pill-to">Phoenix Integration</span><span class="skill-pill pill-to">Samsung API</span>
+        <span class="skill-pill pill-to">Git</span>
+        <span class="skill-pill pill-to">GitHub</span>
+        <span class="skill-pill pill-to">Postman</span>
+        <span class="skill-pill pill-to">Jira</span>
+        <span class="skill-pill pill-to">SonarQube</span>
+        <span class="skill-pill pill-to">GitHub Copilot</span>
+        <span class="skill-pill pill-to">Phoenix Integration</span>
+        <span class="skill-pill pill-to">Samsung API</span>
         <span class="skill-pill pill-to">NetSuite</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- EXPERIENCE -->
+<!-- ── EXPERIENCE ─────────────────────────────────────────────────────────── -->
 <section id="experience" class="section-alt" style="padding: 5rem 0;">
   <div class="section">
     <div class="reveal">
@@ -406,7 +152,7 @@
       <div class="exp-inner">
         <div class="exp-role">Full-Stack Developer</div>
         <div class="exp-company">MethodHub Pvt. Ltd., Mohali</div>
-        <div class="exp-product">OnPoint / Service Avenger — Enterprise Warranty & Dispatch Platform</div>
+        <div class="exp-product">OnPoint / Service Avenger — Enterprise Warranty &amp; Dispatch Platform</div>
         <div class="exp-period">📅 Mar 2024 – Present</div>
         <ul class="exp-list">
           <li class="exp-item"><div class="exp-dot"></div><span>Built warranty and dispatch modules using React.js, Redux Toolkit, and TanStack Query, managing state across 10+ interconnected screens for enterprise warranty clients.</span></li>
@@ -436,7 +182,7 @@
   </div>
 </section>
 
-<!-- PROJECTS -->
+<!-- ── PROJECTS ───────────────────────────────────────────────────────────── -->
 <section id="projects" style="padding: 5rem 0;">
   <div class="section">
     <div class="reveal">
@@ -444,6 +190,7 @@
       <h2 class="section-title">Projects</h2>
       <div class="divider"></div>
     </div>
+
     <div class="project-grid">
       <div class="project-card reveal reveal-d1">
         <div class="project-icon">👥</div>
@@ -477,7 +224,7 @@
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ── CONTACT ────────────────────────────────────────────────────────────── -->
 <section id="contact" class="section-alt" style="padding: 5rem 0;">
   <div class="section">
     <div class="reveal">
@@ -485,21 +232,21 @@
       <h2 class="section-title">Contact</h2>
       <div class="divider"></div>
       <div class="contact-grid">
-        <div class="contact-card" onclick="copyEmail(this)">
+        <div class="contact-card" onclick="copyEmail()">
           <div class="contact-icon">📧</div>
           <div>
             <div class="contact-label" id="emailLabel">Email — click to copy</div>
             <div class="contact-value">vikas.kumar721702@gmail.com</div>
           </div>
         </div>
-        <div class="contact-card" style="cursor:default;">
+        <div class="contact-card" style="cursor: default;">
           <div class="contact-icon">📱</div>
           <div>
             <div class="contact-label">Phone</div>
             <div class="contact-value">+91-7217246935</div>
           </div>
         </div>
-        <div class="contact-card" style="cursor:default;">
+        <div class="contact-card" style="cursor: default;">
           <div class="contact-icon">📍</div>
           <div>
             <div class="contact-label">Location</div>
@@ -527,68 +274,10 @@
 
 <footer>
   <p>VIKAS KUMAR · FULL-STACK DEVELOPER · 2025</p>
-  <p>Built with React.js · Designed with ♥</p>
+  <p>Built with HTML · CSS · JavaScript · Designed with ♥</p>
 </footer>
 
-<script>
-  // Scroll to section
-  function scrollTo(id) {
-    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-  }
-
-  // Mobile menu
-  let menuOpen = false;
-  function toggleMenu() {
-    menuOpen = !menuOpen;
-    document.getElementById('mobileMenu').classList.toggle('open', menuOpen);
-    const h1 = document.getElementById('hb1'), h2 = document.getElementById('hb2'), h3 = document.getElementById('hb3');
-    h1.style.transform = menuOpen ? 'rotate(45deg) translate(5px, 5px)' : '';
-    h2.style.opacity = menuOpen ? '0' : '1';
-    h3.style.transform = menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : '';
-  }
-  function closeMenu() { menuOpen = false; document.getElementById('mobileMenu').classList.remove('open'); }
-
-  // Active nav on scroll
-  const sections = ['home','skills','experience','projects','contact'];
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY + 100;
-    let current = 'home';
-    sections.forEach(id => {
-      const el = document.getElementById(id);
-      if (el && y >= el.offsetTop) current = id;
-    });
-    document.querySelectorAll('.nav-links li').forEach((li, i) => {
-      li.classList.toggle('active', sections[i] === current);
-    });
-    document.querySelectorAll('.mobile-menu a').forEach((a, i) => {
-      a.classList.toggle('active', sections[i] === current);
-    });
-  });
-
-  // Skill tabs
-  const skillMap = { fe: 'active-fe', be: 'active-be', db: 'active-db', cl: 'active-cl', au: 'active-au', to: 'active-to' };
-  function switchSkill(key, btn) {
-    document.querySelectorAll('.skill-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.skill-tab').forEach(t => { Object.values(skillMap).forEach(c => t.classList.remove(c)); });
-    document.getElementById('skill-' + key).classList.add('active');
-    btn.classList.add(skillMap[key]);
-  }
-
-  // Copy email
-  function copyEmail(el) {
-    navigator.clipboard.writeText('vikas.kumar721702@gmail.com').then(() => {
-      const lbl = document.getElementById('emailLabel');
-      lbl.textContent = '✓ Copied to clipboard!';
-      lbl.style.color = '#10b981';
-      setTimeout(() => { lbl.textContent = 'Email — click to copy'; lbl.style.color = ''; }, 2500);
-    });
-  }
-
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+<!-- JS loaded at end so DOM is ready -->
+<script src="index.js"></script>
 </body>
 </html>
